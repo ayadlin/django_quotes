@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"> {% load static %} {% load index %} {% load get_item %} {% load define %} {% load mathfilters %}
+    <!-- The line above tells Django to be ready to listen for static files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    <!--        <link rel="stylesheet" href="{% static 'login_registration/css/style.css' %}" media="screen" title="no title"  charset="utf-8"> -->
+    <!-- Put the static files in the static folder inside your app.  Django collects files within all static folders and puts them within a single folder -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{% static 'scripts/scripts.js' %}"></script>
+    <title>login_registration</title>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class=row>
+            <div class=col>
+                <h1>Welcome, {{name}}</h1>
+            </div>
+            <div class=col>
+                <a href="/logout">
+                    logout
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <br>
+
+
+    <div class="container">
+        <div class=row>
+            <div class=col style:"overflow=scroll">
+                <h2> Quotable Quotes</h2>
+                {% for record in rest %}
+
+                <div class=row>
+
+                    <p>{{record.quote}}</p>
+                </div>
+
+                <div class=row>
+                    <p>{{record.quoted_by}}</p>
+                </div>
+                <!-- <div class=col>
+                {{record.status}}
+            </div> -->
+                <div class=row>
+                    <p>
+                        Posted by
+                        <a href="/quotes/user/{{record.user.id}}">{{record.user.first_name}}</a>
+                    </p>
+                </div>
+
+                <form action="/quotes/favorite" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value={{request.session.user_id}}>
+                    <input type="hidden" name="quote_id" value={{record.id}}>
+                    <input type="submit" value="Add to my favorites">
+                </form>
+                <br>
+                <br> {% endfor %}
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="col" style:"overflow=scroll">
+                <h2>Your Favorites</h2>
+                {% for record in fav %}
+
+                <div class=row>
+
+                    <p>{{record.quote}}</p>
+                </div>
+
+                <div class=row>
+                    <p>{{record.quoted_by}}</p>
+                </div>
+                <!-- <div class=col>
+                    {{record.status}}
+                </div> -->
+                <div class=row>
+                    <p>
+                        Posted by
+                        <a href="/quotes/user/{{record.user.id}}">{{record.user.first_name}}</a>
+                    </p>
+                </div>
+
+                <form action="/quotes/not_favorite" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value={{request.session.user_id}}>
+                    <input type="hidden" name="quote_id" value={{record.id}}>
+                    <input type="submit" value="remove from my favorites">
+                </form>
+                <br>
+                <br> {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class=container>
+        <div class=row>
+            <div class=col>
+                <h2>Add a Quote</h2>
+                <br>
+                <form action="/quotes/new_quote" method="post">
+                    {% csrf_token %}
+                    <div class=row>
+                        quoted_by:
+                        <input type="text" name="quoted_by">
+                    </div>
+                    <br>
+                    <div class=row>
+                        Mesage:
+                        <textarea name="quote" id="" cols="50" rows="10"></textarea>
+                    </div>
+                    <br>
+                    <br>
+                    <input type="hidden" name="user" value={{request.session.user_id}}>
+                    <input type="submit" value="Submit">
+
+                </form>
+
+            </div>
+
+            {% if messages %}
+            <div class=col>
+                <br>
+                <br>
+                <br>
+                <br> {% for message in messages %}
+                <br> {{message}}
+                <br> {% endfor %}
+            </div>
+            {%endif%}
+        </div>
+    </div>
+
+
+
+
+</body>

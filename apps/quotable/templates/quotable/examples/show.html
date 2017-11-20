@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"> {% load static %} {% load index %} {% load get_item %} {% load define %} {% load mathfilters %}
+    <!-- The line above tells Django to be ready to listen for static files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    <!--        <link rel="stylesheet" href="{% static 'manage_quotes/css/style.css' %}" media="screen" title="no title"  charset="utf-8"> -->
+    <!-- Put the static files in the static folder inside your app.  Django collects files within all static folders and puts them within a single folder -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{% static 'scripts/scripts.js' %}"></script>
+    <title>manage_quotes</title>
+</head>
+
+<body>
+    {% if messages %} {% for message in messages %} {{ message }} {% endfor %} {% endif %}
+    <h1>USER {{user_id}}</h1>
+    <div class="container">
+        <div class="row">
+            <p>Full Name: {{first}} {{last}}</p>
+        </div>
+        <div class="row">
+            <p>email: {{email}}</p>
+        </div>
+
+        <div class="row">
+            <p>Birthday: {{birthday}}</p>
+        </div>
+
+        <div class="row">
+                <p>Created at: {{created_at}}</p>
+        </div>
+        <br>
+        <br>
+
+        <div class="row">
+                <p> <a href ="/quotes/{{user_id}}/edit">Edit</a>  |  <a href ="destroy">Delete</a></p>
+        </div>
+
+
+
+</body>
+
+</html>
+

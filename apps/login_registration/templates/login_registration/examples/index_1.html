@@ -1,0 +1,50 @@
+
+
+!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"> {% load static %} {% load index %} {% load get_item %} {% load define %} {% load mathfilters %}
+    <!-- The line above tells Django to be ready to listen for static files -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+
+    <!--        <link rel="stylesheet" href="{% static 'manage_users/css/style.css' %}" media="screen" title="no title"  charset="utf-8"> -->
+    <!-- Put the static files in the static folder inside your app.  Django collects files within all static folders and puts them within a single folder -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{% static 'scripts/scripts.js' %}"></script>
+    <title>users</title>
+</head>
+
+<body>
+    <h1>users</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col">id</div>
+            <div class="col">Full Name</div>
+            <div class="col">e-mail</div>
+            <div class="col">created at</div>
+            <div class="col">actions</div>
+        </div>
+        {% for user in users %}
+        <div class ="row">
+            <div class = "col">{{user.id}}</div>
+            <div class= "col">{{user.first_name}} {{user.last_name}}</div>
+            <div class ="col">{{user.email}}</div>
+            <div class ="col">{{user.created_at}}</div>
+            <div class ="col">
+                <a href="users/{{user.id}}/show">Show</a>
+                <a href="users/{{user.id}}/edit">Edit</a>
+                <a href="users/{{user.id}}/destroy">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    <br>
+        <a href="/users/new"><button>Create user</button></a>
+            {% csrf_token %}
+</body>
+
+</html>
+
